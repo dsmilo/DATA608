@@ -15,7 +15,7 @@ by_state <- companies %>% group_by(State) %>% summarize(Count = n()) %>% arrange
 ordered_states <- rev(by_state$State)  # includes DC & Puerto Rico
 by_state$State <- factor(by_state$State, levels = ordered_states)
 
-ggplot(by_state, aes(x = State, y = Count, fill = Count)) + geom_bar(stat = "identity", alpha = 0.5, col = "black") + coord_flip() + scale_fill_gradient(low = "red", high = "green", guide = FALSE) + ggtitle("Number of Fast-Growing Companies per State\n") + scale_y_continuous("Number of Companies") + scale_x_discrete("")
+ggplot(by_state, aes(x = State, y = Count)) + geom_bar(stat = "identity", alpha = 0.5, col = "black") + coord_flip() + ggtitle("Number of Fast-Growing Companies per State\n") + scale_y_continuous("Number of Companies") + scale_x_discrete("")
 
 ggsave('Figure1.png', height = 16, width = 9)
 
@@ -31,7 +31,7 @@ by_industry <- newyork %>% group_by(Industry) %>%
 ordered_industries <- rev(by_industry$Industry) # 25 industries
 newyork$Industry <- factor(newyork$Industry, levels = ordered_industries)
 
-ggplot(newyork, aes(x = Industry, y = Employees, fill = Industry)) + geom_boxplot(outlier.shape = NA, alpha = 0.5) + coord_flip() + scale_fill_manual(values = rev(heat.colors(length(levels(newyork$Industry)))), guide = FALSE) + ggtitle("Employment by Industry in New York\n") + scale_x_discrete("")
+ggplot(newyork, aes(x = Industry, y = Employees)) + geom_boxplot(outlier.shape = NA, alpha = 0.5) + coord_flip() + ggtitle("Employment by Industry in New York\n") + scale_x_discrete("")
 
 ggsave('Figure2.png', height = 16, width = 9)
 
@@ -49,6 +49,6 @@ by_industry_2 <- per_employee %>% summarize(med = median(Rev_per_Emp)) %>% arran
 ordered_industries_2 <- rev(by_industry_2$Industry)
 per_employee$Industry <- factor(per_employee$Industry, levels = ordered_industries_2)
 
-ggplot(per_employee, aes(x = Industry, y = Rev_per_Emp, fill = Industry)) + geom_boxplot(outlier.shape = NA, alpha = 0.5) + coord_flip() + scale_fill_manual(values = rev(heat.colors(length(levels(per_employee$Industry)))), guide = FALSE) + ggtitle("Revenue Generated per Employee by Industry\n") + scale_y_continuous("Revenue per Employee ($k)") + scale_x_discrete("")
+ggplot(per_employee, aes(x = Industry, y = Rev_per_Emp)) + geom_boxplot(outlier.shape = NA, alpha = 0.5) + coord_flip() + ggtitle("Revenue Generated per Employee by Industry\n") + scale_y_continuous("Revenue per Employee ($k)") + scale_x_discrete("")
 
 ggsave('Figure3.png', height = 16, width = 9)
