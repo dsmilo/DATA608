@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head><title>Dan Smilowitz | DATA 608 hw5</title></head>
+
+
+<p id='string'></p>
+
+<p id='table'></p>
+
+<!-- Create a function to reverse any word that you type in. -->
+<script type="text/javascript">
+// define function
+function string_reverse(input) {
+	// convert string to array
+    var str_as_array = input.split('');
+    // reverse array
+    var rev_array = str_as_array.reverse();
+    // convert array back to string & return
+    var rev_str = rev_array.join('');
+    return rev_str;
+}
+
+// request string to be reversed
+var mystring = prompt('Input a string.');
+// return reversed string
+var myreverse = 'Your string reversed: ' + string_reverse(mystring);
+document.getElementById('string').innerHTML = myreverse;
+</script>
+
+
+<!-- Create a function that takes an input number, and prints a table
+with the first 20 multiples of the number, in order 5x4 -->
+<script type="text/javascript">
+// define function
+function multiple_table(input) {
+	var tbl = '<table>'; // begin table
+	var mult = 1; // counting variable for mutliplier
+	for (var rw = 1; rw < 6; rw++) {
+		tbl = tbl + '<tr>' // begin row
+		for (var col = 1; col < 5; col++) {
+			// create cell values
+			var cellval = input * mult //get cell value
+			tbl = tbl + '<td>' + cellval + '</td>' //add to table
+			mult++; // increment counting variable
+		}
+		tbl = tbl + '</tr>' // end row
+	}
+	tbl = tbl + '</table>' // end table
+	return tbl
+}
+
+// request number to be multiplied
+var mynumber = prompt('Input a number.');
+// produce table
+var mytable = 'Your table:\n' + multiple_table(mynumber);
+document.getElementById('table').innerHTML = mytable;
+</script>
+
+
+</html>
