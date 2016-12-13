@@ -1,0 +1,17 @@
+
+IRS: https://www.irs.gov/uac/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi
+
+NYS DOH: https://www.health.ny.gov/statistics/cancer/registry/appendix/neighborhoods.htm
+
+Zillow: http://www.zillow.com/research/data/#median-home-value
+
+Census ACS: http://www.census.gov/data/developers/data-sets/acs-5year.html
+
+Census 2000 SF1: http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=DEC_00_SF1_DP1&prodType=table
+
+Census 2000 SF3: http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=DEC_00_SF3_DP3&prodType=table
+
+Census 2010 SF1: http://factfinder.census.gov/faces/tableservices/jsf/pages/productview.xhtml?pid=DEC_10_SF1_SF1DP1&prodType=table
+
+NY Open Data: https://data.ny.gov/Economic-Development/Active-Corporations-Beginning-1800/n9v6-gdp6/data
+	
