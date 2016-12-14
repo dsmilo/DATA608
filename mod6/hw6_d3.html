@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<body>
+  <h2>JavaScript Visualization of Project Data</h2>
+  <p>
+    Visualization of data from  
+    <a href="https://github.com/dsmilo/DATA608/tree/master/project">DATA 608 final project</a> using d3.js.  
+  </p>
+  <br>
+  <div id='d3plot'></div>
+  <p><em>Sources: US Census Bureau; NYS Department of Health</em></p>
+</body>
+
+<head>
+  <title>JS Visualization | d3.js</title>
+
+  <!-- load flatly css from bootswatch -->
+  <link href="https://bootswatch.com/flatly/bootstrap.min.css" rel="stylesheet">
+
+  <!-- set file location -->
+  <script type="text/javascript">
+    var flnm = 'https://raw.githubusercontent.com/dsmilo/DATA608/master/mod6/boro.csv'
+  </script>
+  
+  <!--
+  ********************************* d3.js *********************************
+  adapted from example at http://bl.ocks.org/mbostock/3887051
+  -->
+
+  <!-- load d3 library (version 3) -->
+  <script src="//d3js.org/d3.v3.min.js"></script>
+
+  <!-- adjust style to make graph nicer -->
+  <style>
+    /* shrink font in svg */
+    svg {
+      font: 12px sans-serif;
+    }
+
+    /* sharpen axes */
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+  </style>
+
+  <!-- create script for d3 plot -->
+  <script type="text/javascript">
+    // define plot size (1200x600) and margins
+    var margin = {top: 50, right: 40, bottom: 30, left: 40},
+        width = 1200 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
+
+    // set up scales for axes
+    var x0 = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .1);
+    var x1 = d3.scale.ordinal();
+    var y = d3.scale.linear()
+        .range([height, 0]);
+
+    // create axes
+    var xAxis = d3.svg.axis()
+        .scale(x0)
+        .orient("bottom");
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .tickFormat(d3.format(".2s"));
+
+    // set up color scale (Viridis again)
+    var color = d3.scale.ordinal()
+        .range(["#FDE725", "#5DC863", "#21908C", "#3B528B", "#440154"]);
+
+    // create svg
+    var svg = d3.select("#d3plot").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // read in data from csv
+    d3.csv(flnm, function(error, data) {
+      if (error) throw error;
+
+      // get years for categorical x axis
+      var yearNames = d3.keys(data[0]).filter(function(key) { return key !== "Year"; });
+
+      // map years
+      data.forEach(function(d) {
+        d.years = yearNames.map(function(name) { return {name: name, value: +d[name]}; });
+      });
+
+      // set up x axis values and groups
+      x0.domain(data.map(function(d) { return d.Year; }));
+      x1.domain(yearNames).rangeRoundBands([0, x0.rangeBand()]);
+
+      // set up y axis range
+      y.domain([0, d3.max(data, function(d) { return d3.max(d.years, function(d) { return d.value; }); })]);
+
+      // draw x axis
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+
+      // draw y axis
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis)
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Population");
+
+      // add title
+      svg.append("text")
+            .attr("x", (width / 2))             
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")  
+            .style("font-size", "18px") 
+            .text("NYC Population by Borough");
+
+      // add data to object
+      var year = svg.selectAll(".year")
+          .data(data)
+          .enter().append("g")
+          .attr("class", "year")
+          .attr("transform", function(d) { return "translate(" + x0(d.Year) + ",0)"; });
+
+      // draw bars
+      year.selectAll("rect")
+          .data(function(d) { return d.years; })
+          .enter().append("rect")
+          .attr("width", x1.rangeBand())
+          .attr("x", function(d) { return x1(d.name); })
+          .attr("y", function(d) { return y(d.value); })
+          .attr("height", function(d) { return height - y(d.value); })
+          .style("fill", function(d) { return color(d.name); });
+
+      // create legend object
+      var legend = svg.selectAll(".legend")
+          .data(yearNames.slice())
+          .enter().append("g")
+          .attr("class", "legend")
+          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+      // add color code for legend
+      legend.append("rect")
+          .attr("x", width + (margin.right / 2))
+          .attr("width", 18)
+          .attr("height", 18)
+          .style("fill", color);
+
+      // add text for legend
+      legend.append("text")
+          .attr("x", width + (margin.right / 2) - 4)
+          .attr("y", 9)
+          .attr("dy", ".35em")
+          .style("text-anchor", "end")
+          .text(function(d) { return d; });
+    });
+  </script>
+
+</head>
+</html>
