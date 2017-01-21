@@ -124,20 +124,20 @@ server <- shinyServer(function(input, output) {
       # create plotly graph with price change vs. new businesses
       # and adjust visual parameters
       plot_ly(x = ~TotalNewBiz, y = ~PriceChange, size = ~Population, 
-              text = ~ZipCode, hoverinfo = 'all', 
-              alpha = 0.75, sizes = c(100, 2000), height = 600) %>%
+              text = ~Neighborhood, hoverinfo = 'all', 
+              alpha = 0.75, sizes = c(10, 100), height = 600) %>%
       group_by(ZipCode) %>%
       # set x axis to log scale
       layout(xaxis = list(type = 'log')) %>%
       # color by borough; animate by year
-      add_markers(color = ~Borough, frame = ~Year, colors = rev(viridis(4))) %>%
+      add_markers(color = ~ZipCode, frame = ~Year, colors = rev(viridis(5))) %>%
       # set duration and type of transition between years
       animation_opts(frame = 2000, easing = 'cubic-in-out') %>%
       # set layout parameters (titles, legend, formatting)
       layout(title = paste0(
         'Change in Real Estate Value vs. Opening of New Businesses',
         '<br>', 'in New York City by Zip Code, 2004-2014'),
-        legend = list(x = 0, y = 1, orientation = 'h'),
+        showlegend = FALSE,
         xaxis = list(title = 'New Business Opened per Year'),
         yaxis = list(title = 'Increase in Median Home Value', 
                      tickformat = '.0%'),
@@ -177,7 +177,7 @@ server <- shinyServer(function(input, output) {
       group_by(ZipCode) %>% add_lines() %>%
       # set layout parameters
       layout(margin = list(l = 100, r = 100, b = 50, t = 50, pad = 1),
-             yaxis = list(type = input$lin_scale))
+             yaxis = list(type = input$lin_scale), hovermode = 'closest')
   })
   
   

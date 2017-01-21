@@ -1,4 +1,4 @@
-# Business Openings as a Indicator of Gentrification
+# Business Openings as an Indicator of Gentrification
 #### Dan Smilowitz
 
 This project was completed for the Knowledge & Visual Analytics (DATA 608) course in the curriculum of the City University of New York School of Professional Studies (CUNY SPS) Masters of Science in Data Analytics program.  Other projects completed for this course can be found on [GitHub](https://jlaurito.github.io/CUNY_IS608/).
